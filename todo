@@ -1,7 +1,0 @@
-error handling for missing IP list
-    - ping sweep network to generate it
-implement concurencry
-    - sounds hard
-clean up output and maybe put some fun terminal colors
-implement verbose flag
-set shortcut to go run main.go (maybe vim-go has something)
