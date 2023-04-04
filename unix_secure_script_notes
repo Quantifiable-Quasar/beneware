@@ -1,0 +1,101 @@
+CIS Benchmarks
+==================
+
+disable unused filesystem
+filesystem integrity (aide)
+processes hardening
+    -> nx enabled
+    -> apparmor config
+ensure unused server is not installed
+service clients (no nis, rsh, talk, telnet, ldap, rpc)
+disable unused network protocols
+disable uncommon network protocols
+configure system auditing (auditd)
+configure sudo
+configure ssh
+user and group hardening
+configure cron
+audit services and disable known bad services
+
+Other stuff
+===============
+Set(G)UID bins
+check to see if important things are vunlerable
+    -> kernel
+    -> sudo
+what is grsecurty
+implemented mac framework??
+file integrity tools
+check perms on .ssh files (should be no keys)
+lynis kernel hardening (no clue about this)
+malware scanner
+find dead/zombie and io wating proc
+find prelink tooling
+find /proc/meminfo
+find shells form /etc/shells
+nfs daemon (begone!)
+verify /etc/resolv.conf and hosts
+DNSSEC (maybe)
+check connections (i have never even heard of netstat)
+check for arp monitoring software
+audit uncommon network protocols
+no cups for me (ipp too)
+modsecurity
+ssh configs
+no snmp daemon
+no ldap
+general php hardeing
+kill squid
+TOMOYO Linux?
+chek the common files for better perms
+unexpected files in root
+check for misconfig ld.so
+search for uncommon passwd files (find / -name "passwd" -type f)
+
+
+LIDS (Linux IDS) Kernel thingy mayhaps?
+https://book.hacktricks.xyz/linux-hardening/linux-privilege-escalation-checklist
+
+
+
+Probably dont need boot security (out of scope)??
+
+Display results not act
+======================
+find immutable
+crontab! (and alternatives???)
+ps
+netstat
+user accounts < 1000
+root account (if not normal)
+all accounts with interactive shell
+sudoers.d checking
+recomend firewall rules 
+tell what servers are running
+take a minimal install of os and compare to maximal install and remove the diff
+secure d-bus stuff (do we need?)
+processes with credentials in memory https://book.hacktricks.xyz/linuz-hardening/privilege-escalation#credentials-from-process-memory
+aslr enabled (make sure)
+seccomp
+Execshield enabled
+
+linux exploit suggester
+
+Stuff to install
+=================
+apparomor/selinux
+apt-listbugs
+apt-listchanges
+checkrestart
+needrestart
+debscan
+debsums
+fail2ban
+
+Find the truly minimal requirements 
+1. install and run app
+2. determine missing files via error messages/strace
+3. get package name from package database
+4. add appropriate package
+5. add appropriate dependencies
+6. repeat 1-5 until done
