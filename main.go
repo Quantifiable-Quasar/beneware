@@ -18,6 +18,10 @@ import (
 var validUser string
 var validPass string
 
+var userList, passList []string
+
+var verbose bool
+
 func check(e error) {
 	// Kills program if error
 	if e != nil {
@@ -125,8 +129,6 @@ func expandCIDR(network string) []string {
 
 	return []string{"a", "b"}
 }
-
-var userList, passList []string
 
 func main() {
 	// define the possible flags
