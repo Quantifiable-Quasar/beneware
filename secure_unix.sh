@@ -43,15 +43,14 @@ echo "install usb-storage /bin/true" >> /etc/modprobe.d/usb_storage.conf
 rnmod usb-storate
 
 # CIS 1.3.1 Ensure AIDE is installed
-# This will require more work
-# I will implement later
+# todo
 
 # CIS 1.4.1 Ensure permissions on bootloader config are not overwritten
 #sed -ri 's/chmod\s+[0-7][0-7][0-7]\s+\$\{grub cfg\}\.new/chmod 400 ${grub_cfg}.new/' /usr/sbin/grub-mkconfig
 # nervous
+# todo
 
 # CIS 1.5.1 Ensure XD/NX support is enabled
-# This will be written to outfile
 journalctl | grep 'NX (Execute'
 
 # CIS 1.5.2 Ensure ASLR is enabled
@@ -75,11 +74,15 @@ then
 fi
 
 # CIS 1.6 requires OS info skipping for now
-
-# CIS 1.7 skipped 
+# todo 
 
 # CIS 1.8.4 Ensure XDCMP is not enabled
-grep -Eis '^\s*Enable\s*=\s*true' /etc/gdm3/custom.conf
+xdcmp=$(grep -Eis '^\s*Enable\s*=\s*true' /etc/gdm3/custom.conf)
+if [[ $xdcmp -ne "" ]];
+then
+        echo Disable XDCMP
+        echo $xdcmp
+fi
 
 # CIS 2.1.3 Ensure Avahi Server is not installed
 systemctl stop avahi-daemon.service
@@ -101,6 +104,7 @@ fi
 
 # CIS 3.1.1 Disable IPv6
 # Maybe?
+# todo
 
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.default.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -116,7 +120,7 @@ sysctl -w net.ipv4.conf.default.send_redirects=0
 sysctl -w net.ipv4.route.flush=1
 
 # CIS 3.2.2 Ensure IP forwarding is disabled
-# Later
+# todo
 
 echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
 echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
@@ -126,11 +130,14 @@ sysctl -w net.ipv4.route.flush=1
 
 # CIS 3.3.2 Ensure ICMP rdirects are not accepted
 # I think we want pings
+# todo
 
 # CIS 3.3.3 Ensure secure ICMP redirects are not accepted
 # ping 
+# todo
 
 # CIS 3.3.4 Ensure suspicous packets are logged
+
 echo "net.ipv4.conf.all.log martians = 1" >> /etc/sysctl.conf
 echo "net.ipv4.conf.default.log_martians = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.conf.all.log_martians=1
@@ -139,16 +146,19 @@ sysctl -w net.ipv4.route.flush=1
 
 # CIS 3.3.5 Ensure broadcast ICMP requests are ignored
 # I think we can ignore these ones
+
 echo "net.ipv4.icmp_echo_ignore_broadcasts = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
 sysctl -w net.ipv4.route.flush=1
 
 # CIS 3.3.6 Ensure bogus ICMP responses are ignored
+
 echo "net.ipv4.icmp_ignore_bogus_error_responses = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
 sysctl -w net.ipv4.route.flush=1
 
 # CIS 3.3.7 Ensure Reverse Path Filtering is enabled
+
 echo "net.ipv4.conf.all.rp_filter = 1" >> /etc/sysctl.conf
 echo "net.ipv4.conf.default.rp_filter = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.conf.all.rp_filter=1
@@ -156,12 +166,14 @@ sysctl -w net.ipv4.conf.default.rp_filter=1
 sysctl -w net.ipv4.route.flush=1
 
 # CIS 3.3.8 Ensure TCP SYN cookies is enabled
+
 echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.tcp_syncookies=1
 sysctl -w net.ipv4.route.flush=1
 
 # CIS 3.3.9 Ensure IPv6 router advertisements are not accepted
 # this doesn't matter if ipv6 is disabled
+# todo
 
 # CIS 3.4.1 - 3.4.4 Ensure uncommon protocols are disabled
 protocols="dccp sctp rds tipc"
@@ -207,6 +219,7 @@ echo "-w /etc/network -p wa -k system-locale" >> /etc/audit/rules.d/50-system-lo
 # CIS 4.1.6 Ensure events that modify the system's Mandatory Access Controls are collected
 # this monitors apparmor 
 # wil not implement yet
+# todo
 
 # CIS 4.1.7 Ensure login and logout events are collected
 
@@ -238,6 +251,7 @@ echo "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftrun
 
 # CIS 4.1.11 Ensure use of privileged commands in collected
 # ignored
+# todo
 
 # CIS 4.1.12 Ensure successful file system mounts are collected
 
@@ -246,6 +260,7 @@ echo "-a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=4284867285 -k m
 
 # CIS 4.1.13 Ensure file deletion events by users are collected
 # ignored
+# todo
 
 # CIS 4.1.14 Ensure changes to system administratino scope (sudoers) is collected
 
@@ -254,6 +269,7 @@ echo "-w /etc/sudoers.d/ -p wa -k scope" >> /etc/audit/rules.d/50-scope.rules
 
 # CIS 4.1.15 Ensure system administrator command executions are collected
 # ignored
+# todo
 
 # CIS 4.1.16 Ensure kernel module loading and unloading is collected 
 
@@ -315,6 +331,7 @@ echo "Defaults use_pty" | EDITOR="tee -a" visudo
 echo "Defaults logfile ='/var/log/sudo.log'" | EDITOR="tee -a" visudo
 
 # skipping ssh
+# todo
 
 # skipping pam
 
@@ -324,6 +341,8 @@ usermod -g 0 root
 
 # CIS 5.5.5 Ensure default user shell timeout is 900 seconds or less
 # annoying
+# todo
+
 :'
 echo "TMOUT=900" >> /etc/profile
 echo "readonly TMOUT" >> /etc/profile
@@ -335,7 +354,7 @@ echo "export TMOUT" >> /etc/profile
 cat /etc/securetty
 
 # CIS 5.7 Ensure access to the su command is restricted
-
+# todo
 #groupadd sugroup
 #echo "auth required pam_wheel.so use_uid group=sugroup" >> /etc/pam.d/su
 
@@ -459,20 +478,50 @@ then
 fi
 
 # CIS 6.2.12 Ensure root PATH integrity
-# later
+
+RPCV="$(sudo -Hiu root env | grep '^PATH' | cut -d= -f2)"
+echo "$RPCV" | grep -q "::" && echo "root's path contains an empty dir (::)"
+echo "$RPCV" | grep -q ":$" && echo "root's path contains a trailing (:)"
+for x in $(echo "$RPCV" | tr ":" " "); do
+        if [ -d "$x" ]; then
+                ls -ldH "$x" | awk '-9 == "." {print "PATH contains working dir (.)"} $3 != "root" {print $9, "is not owned by root"} substr($1,6,1) != "-" {print $9, "is group writable"} substr($1,9,1) != "-" {print $9, "is world writable"}'
+        else
+                echo "$x is not a directory"
+        fi
+done
 
 # CIS 6.2.13 Ensure no duplicate UIDs exist
-# later
+
+cut -f3 -d":" /etc/passwd | sort -n | uniq -c while read x; 
+do 
+        [ -z "$x" ] && break
+        set - $x
+        if [[ $1 -gt 1 ]]; then
+                users=$(awk -F: '($3 == n) { print $1 }' n=$2 /etc/passwd | xargs)
+                echo "Duplicate UID ($2): $users"
+        fi
+done
 
 # CIS 6.2.14 Ensure no duplicate GIDs exist
-# later
+
+cud -d":" -f3 /etc/group | sort | uniq -d | while read x; do
+    echo "Duplicate GID ($x) in /etc/group"
+done
 
 # CIS 6.2.15 Ensure no duplicate user names exist
-# later
+
+cut -d ":" -f 1 /etc/passwd | sort | uniq | uniq -d | while read -r x; do
+    echo "Duplicate login name $x in /etc/passwd"
+done
 
 # CIS 6.2.16 Ensure no duplicate group names exist
-# later
+
+cut -d ":" -f 1 /etc/group | sort | uniq -d | while read -r x; do
+    echo "Duplicate group name $x in /etc/group"
+done
 
 # CIS 6.2.17 Ensure shadow group is empty
-# later
+
+grep ^shadow:[^:]*:[^:]*[^:]+ /etc/group
+awk -F: -v GID="$(awk -F: '($1=="shadow") {print $3}' /etc/group)" ' ($4==GID) {print}' /etc/passwd
 
