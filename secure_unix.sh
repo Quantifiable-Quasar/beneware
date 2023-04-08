@@ -234,7 +234,7 @@ echo "-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S remove
 echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access" >> /etc/audit/rules.d/50-access.rules
 echo "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access" >> /etc/audit/rules.d/50-access.rules
 echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM  -F auid>=1000 -F auid!=4294967295 -k access" >> /etc/audit/rules.d/50-access.rules
-echo "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM  -F auid>=1000 -F auid!=4294967295 -k access" >> /etc/audit/rules.d/50-access.rules
+echo "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM  -F auid>=1000 -F auid!=4294967295 -k access"  >> /etc/audit/rules.d/50-access.rules
 
 # CIS 4.1.11 Ensure use of privileged commands in collected
 # ignored
