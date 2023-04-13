@@ -525,3 +525,35 @@ done
 grep ^shadow:[^:]*:[^:]*[^:]+ /etc/group
 awk -F: -v GID="$(awk -F: '($1=="shadow") {print $3}' /etc/group)" ' ($4==GID) {print}' /etc/passwd
 
+
+# Stuff I just kinda did
+
+
+# find ssh keys with improper perms
+for i in $(ls /home);
+do
+        echo /home/$i
+        ls -lah /home/$i/.ssh | grep -v -e "-rw-------"
+done
+
+echo /root.ssh
+ls -lah /root/.ssh | grep -v -e "-rw-------"
+
+# Check for users that have a shell that exists on the system
+
+for i in $(cat /etc/shells | grep -ve "#" | grep '\S');
+do
+        echo Users with a shell on this system
+        grep $i /etc/passwd
+done
+
+# Check networking stuff
+
+cat /etc/resolv.conf
+cat /etc/hosts
+
+# find uncommon password files
+
+find / -name "passwd" -type f 2>/dev/null | grep -v "/etc/passwd"
+
+# 
