@@ -1,6 +1,6 @@
 ### Description
 
-This is a script that will reach out to various network devices and perform a password spraying attack. From there, it will send a script to these devices to harden them. This project was inspired by the Mirai botnet, but instead of running a botnet we send hardening scripts to machines to make them better
+This program will brute force SSH servers on a given network, and once connected, send hardening scripts. This project was inspired by the Mirai botnet, so the initial access is pretty much copied from them. Instead of sending malware, however, this sends hardening scripts. 
 
 ### Install
 

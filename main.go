@@ -92,6 +92,7 @@ func findUser(userList []string, passList []string, rhost string, timeoutPtr *in
 			if sshDialer(i, j, rhost, timeoutPtr) {
 				fmt.Printf("Correct combination!\n")
 				// TODO maybe add an option to get all valid logins or maybe find root login?
+				fmt.Printf("test")
 				return i, j
 			}
 		}
@@ -137,7 +138,7 @@ func sendCMD(rhost, cmd string) (string, error) {
 	return b.String(), err
 }
 
-func expandCIDR(network string) []string {
+func pingSweep(network string) []string {
 	// expands a CIDR notated IP into a list of all the possible IP addresses it could be
 
 	// get string into a net object for better manipulation
@@ -172,12 +173,14 @@ func main() {
 	rnetPointer := flag.String("n", "", "Network to try in CIDR notation")
 	flag.Parse()
 
+	// why is this declared here?
+	// TODO fix or figure out why i did that
 	var ipList []string
 
 	// if else to pick where ips are coming from
 	if *rnetPointer != "" {
 		// pass subnet from cmdline
-		ipListTmp := expandCIDR(*rnetPointer)
+		ipListTmp := pingSweep(*rnetPointer)
 		ipList = ipListTmp
 
 	} else {
