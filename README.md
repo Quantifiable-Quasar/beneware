@@ -1,6 +1,6 @@
 ### Description
 
-This is a script that will reach out to various network devices and perform a password spraying attack. From there, it will send a script to these devices to harden them.
+This is a script that will reach out to various network devices and perform a password spraying attack. From there, it will send a script to these devices to harden them. This project was inspired by the Mirai botnet, but instead of running a botnet we send hardening scripts to machines to make them better
 
 ### Install
 
@@ -25,4 +25,5 @@ go run main.go
 - add a verbose mode 
 - implement concurency
 - add a network scan if an IP list is not supplied
-- write hardening scripts for windows
+- make windows work
+- create client agent to deploy on host to maintain connections
