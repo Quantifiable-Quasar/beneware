@@ -2,6 +2,15 @@
 
 This is a script that will reach out to various network devices and perform a password spraying attack. From there, it will send a script to these devices to harden them.
 
+### Install
+
+```bash
+git clone https://github.com/Quantifiable-Quasar/beneware.git
+cd beneware
+go mod download
+go run main.go
+```
+
 ### Useage
 
 - the -h flag will detail all the options
@@ -16,5 +25,4 @@ This is a script that will reach out to various network devices and perform a pa
 - add a verbose mode 
 - implement concurency
 - add a network scan if an IP list is not supplied
-- write hardening scripts for unix
 - write hardening scripts for windows
